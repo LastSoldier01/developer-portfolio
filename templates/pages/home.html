@@ -1,11 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio</title>
-</head>
-<body>
-    <h1>Portfolio setup successful</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" aria-label="Introduction">
+        <h1 class="hero__greeting fade-item" style="transition-delay: 100ms">Hi, my name is</h1>
+        <h2 class="hero__name big-heading fade-item" style="transition-delay: 200ms">{{ site.display_name }}.</h2>
+        <h3 class="hero__tagline big-heading fade-item" style="transition-delay: 300ms">I build robust things for the web.</h3>
+        <p class="hero__intro fade-item" style="transition-delay: 400ms">
+            I&rsquo;m a backend developer specializing in building reliable web applications with
+            Python&nbsp;&amp;&nbsp;Django. I care about clean architecture, sensible defaults,
+            and code that is easy to maintain.
+        </p>
+        <a class="btn btn--big hero__cta fade-item" style="transition-delay: 500ms" href="#projects">Check Out My Projects</a>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about" data-nav-section>
+        <h2 class="numbered-heading">About Me</h2>
+        <div class="about__inner">
+            <div class="about__text reveal">
+                <p>
+                    Hello! I&rsquo;m a backend developer who enjoys turning ideas into
+                    well-structured, reliable web applications with Python&nbsp;&amp;&nbsp;Django.
+                </p>
+                <p class="placeholder-note">
+                    [ Your story here &mdash; replace this paragraph in
+                    <code>templates/pages/home.html</code> with how you got into programming
+                    and what you enjoy about backend work. ]
+                </p>
+                <p>
+                    I&rsquo;m currently looking for a junior backend role where I can keep
+                    learning, contribute to meaningful projects, and grow with a supportive team.
+                </p>
+                <p>Here are a few technologies I&rsquo;ve been working with recently:</p>
+                {% if technologies %}
+                <ul class="skills-list">
+                    {% for tech in technologies %}
+                    <li>{{ tech.name }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="placeholder-note">
+                    [ Technologies appear here once you add them in the
+                    <a class="inline-link" href="/admin/">Django admin</a>. ]
+                </p>
+                {% endif %}
+            </div>
+            <div class="about__photo reveal">
+                <div class="about__photo-wrapper">
+                    <div class="about__photo-placeholder" role="img" aria-label="Photo placeholder">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>[ your photo ]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FEATURED PROJECTS ============ -->
+    <section class="section featured" id="projects" data-nav-section>
+        <h2 class="numbered-heading">Some Things I&rsquo;ve Built</h2>
+        {% if featured_projects %}
+        <ul class="featured-list">
+            {% for project in featured_projects %}
+            {% include "includes/project-card.html" %}
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state reveal">
+            New projects are on the way &mdash; meanwhile, explore the
+            <a class="inline-link" href="{% url 'projects:list' %}">project archive</a>.
+        </p>
+        {% endif %}
+    </section>
+
+    <!-- ============ OTHER PROJECTS ============ -->
+    <section class="section other-projects" id="other-projects">
+        <h2 class="other-projects__heading reveal">Other Noteworthy Projects</h2>
+        <a class="inline-link archive-link reveal" href="{% url 'projects:list' %}">view the archive</a>
+        {% if other_projects %}
+        <ul class="other-projects__grid">
+            {% for project in other_projects %}
+            {% include "includes/other-project-card.html" %}
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state reveal">
+            Smaller builds will be listed here once published in the
+            <a class="inline-link" href="/admin/">admin</a>.
+        </p>
+        {% endif %}
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact" data-nav-section>
+        <h2 class="numbered-heading contact__overline">What&rsquo;s Next?</h2>
+        <h2 class="contact__title">Get In Touch</h2>
+        <p>
+            I&rsquo;m open to junior backend opportunities and always happy to connect.
+            Whether you have a question, an opportunity, or just want to say hi &mdash;
+            my inbox is always open.
+        </p>
+        {% if site.email %}
+        <a class="btn btn--big contact__cta" href="mailto:{{ site.email }}">Say Hello</a>
+        {% elif site.github_url %}
+        <a class="btn btn--big contact__cta" href="{{ site.github_url }}" target="_blank" rel="noopener noreferrer">Say Hello</a>
+        {% else %}
+        <p class="placeholder-note">
+            [ Add your email in <code>config/site_config.py</code> to enable the contact button. ]
+        </p>
+        {% endif %}
+    </section>
+
+</main>
+{% endblock %}

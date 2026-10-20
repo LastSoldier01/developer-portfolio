@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'pages.context_processors.site_config',
             ],
         },
     },
@@ -121,6 +122,11 @@ STATIC_URL = 'static/'
 
 # Project-level directories for custom static assets (CSS, JavaScript, Images)
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# User-uploaded media (project cover images)
+# https://docs.djangoproject.com/en/5.2/ref/settings/#media-url
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

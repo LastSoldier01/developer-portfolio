@@ -60,7 +60,13 @@ class Project(models.Model):
     demo_url = models.URLField(max_length=500, blank=True, help_text="Optional link to the live demo")
     is_featured = models.BooleanField(default=False, help_text="Highlight this project on the homepage")
     is_published = models.BooleanField(
-        default=True, help_text="Only published projects appear on the public site"
+        default=False, help_text="Only published projects appear on the public site (new projects start as drafts)"
+    )
+    cover_image = models.ImageField(
+        upload_to="covers/",
+        blank=True,
+        null=True,
+        help_text="Optional screenshot for the featured-project card (a styled placeholder is used when empty)",
     )
     order = models.PositiveIntegerField(default=0, help_text="Display order; lower numbers appear first")
     created_at = models.DateTimeField(auto_now_add=True)

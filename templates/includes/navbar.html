@@ -1,0 +1,39 @@
+<header class="site-header" id="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+        <div class="logo">
+            <a href="{% url 'home' %}" aria-label="Home">
+                <span class="logo__hex" aria-hidden="true">
+                    <svg viewBox="0 0 100 100">
+                        <polygon points="50,4 93,27 93,73 50,96 7,73 7,27"></polygon>
+                    </svg>
+                </span>
+                <span class="logo__letter" aria-hidden="true">{% with initial=site.owner_name|slice:":1"|upper %}{{ initial|default:"P" }}{% endwith %}</span>
+            </a>
+        </div>
+
+        <ol class="nav-links">
+            <li><a href="/#about" data-nav-link="about">About</a></li>
+            <li><a href="/#projects" data-nav-link="projects">Work</a></li>
+            <li><a href="/#contact" data-nav-link="contact">Contact</a></li>
+        </ol>
+
+        <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="menu-toggle__box" aria-hidden="true">
+                <span class="menu-toggle__inner"></span>
+            </span>
+        </button>
+    </nav>
+</header>
+
+<aside class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile navigation">
+        <ol class="mobile-menu__links">
+            <li><a href="/#about" data-nav-link="about">About</a></li>
+            <li><a href="/#projects" data-nav-link="projects">Work</a></li>
+            <li><a href="/#contact" data-nav-link="contact">Contact</a></li>
+        </ol>
+        {% if site.github_url %}
+        <a class="btn btn--outline mobile-menu__cta" href="{{ site.github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+        {% endif %}
+    </nav>
+</aside>
