@@ -68,6 +68,14 @@ class Project(models.Model):
         null=True,
         help_text="Optional screenshot for the featured-project card (a styled placeholder is used when empty)",
     )
+    video = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "Optional relative path (under static/) to a self-hosted video, "
+            "e.g. videos/demo.mp4. Shown with an HTML5 player on the detail page."
+        ),
+    )
     order = models.PositiveIntegerField(default=0, help_text="Display order; lower numbers appear first")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
