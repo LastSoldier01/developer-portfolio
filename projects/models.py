@@ -68,6 +68,14 @@ class Project(models.Model):
         null=True,
         help_text="Optional screenshot for the featured-project card (a styled placeholder is used when empty)",
     )
+    cover_static = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "Optional relative path (under static/) to a bundled cover image, "
+            "e.g. img/projects/cover.jpg. Used when no uploaded cover image is provided."
+        ),
+    )
     video = models.CharField(
         max_length=255,
         blank=True,

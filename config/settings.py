@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,13 +21,59 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)wf90ge=bb6d3jmh@17gvrp64w_6pjym5gsi_o9&e6ad3v8%=1'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if "DEBUG" in os.environ:
+    DEBUG = os.environ.get("DEBUG", "").lower() in ("1", "true", "yes", "on")
+else:
+    DEBUG = not bool(os.environ.get("VERCEL") or os.environ.get("DATABASE_URL"))
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+_secret_key = os.environ.get("DJANGO_SECRET_KEY")
+if _secret_key:
+    SECRET_KEY = _secret_key
+elif DEBUG:
+    SECRET_KEY = "django-insecure-)wf90ge=bb6d3jmh@17gvrp64w_6pjym5gsi_o9&e6ad3v8%=1"
+else:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        "DJANGO_SECRET_KEY must be set when DEBUG is False."
+    )
+
+# ALLOWED_HOSTS: comma-separated list via DJANGO_ALLOWED_HOSTS, plus Vercel hosts.
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+    if host.strip()
+]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+vercel_url = os.environ.get("VERCEL_URL")
+if vercel_url and vercel_url not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(vercel_url)
+production_url = os.environ.get("VERCEL_PROJECT_PRODUCTION_URL")
+if production_url and production_url not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(production_url)
+if os.environ.get("VERCEL") and ".vercel.app" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(".vercel.app")
+
+# CSRF: trusted origins (with scheme) from env plus Vercel domains.
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+for host in (vercel_url, production_url):
+    if host:
+        CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
+if os.environ.get("VERCEL"):
+    CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
+# Local development origins.
+CSRF_TRUSTED_ORIGINS.extend(
+    ["http://localhost:8000", "http://127.0.0.1:8000"]
+)
+# De-duplicate while preserving order.
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 
 # Application definition
@@ -76,12 +124,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+_database_url = os.environ.get("DATABASE_URL")
+if _database_url:
+    _ssl_require = bool(
+        os.environ.get("VERCEL")
+        or os.environ.get("DATABASE_SSL_REQUIRE", "").lower() in ("1", "true", "yes")
+    )
+    DATABASES["default"] = dj_database_url.parse(
+        _database_url,
+        conn_max_age=600,
+        ssl_require=_ssl_require,
+    )
 
 
 # Password validation
@@ -123,10 +185,19 @@ STATIC_URL = 'static/'
 # Project-level directories for custom static assets (CSS, JavaScript, Images)
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# Collected static files (used by Vercel's static build / collectstatic).
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 # User-uploaded media (project cover images)
 # https://docs.djangoproject.com/en/5.2/ref/settings/#media-url
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Production security hardening (Vercel terminates TLS upstream).
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

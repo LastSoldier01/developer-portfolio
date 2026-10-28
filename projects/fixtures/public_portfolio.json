@@ -1,0 +1,135 @@
+[
+{
+  "model": "projects.technology",
+  "pk": 1,
+  "fields": {
+    "name": "Python",
+    "slug": "python",
+    "category": "Language",
+    "proficiency": "Intermediate",
+    "order": 1,
+    "is_visible": true,
+    "created_at": "2026-10-20T14:25:50.726Z",
+    "updated_at": "2026-10-20T14:25:50.726Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 2,
+  "fields": {
+    "name": "Django",
+    "slug": "django",
+    "category": "Framework",
+    "proficiency": "Intermediate",
+    "order": 2,
+    "is_visible": true,
+    "created_at": "2026-10-20T15:44:38.093Z",
+    "updated_at": "2026-10-20T15:44:38.093Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 7,
+  "fields": {
+    "name": "Adobe Premiere Pro",
+    "slug": "adobe-premiere-pro",
+    "category": "Tool",
+    "proficiency": "Advanced",
+    "order": 3,
+    "is_visible": true,
+    "created_at": "2026-10-27T16:37:00.804Z",
+    "updated_at": "2026-10-27T16:37:00.804Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 3,
+  "fields": {
+    "name": "SQLite",
+    "slug": "sqlite",
+    "category": "Database",
+    "proficiency": "Intermediate",
+    "order": 3,
+    "is_visible": true,
+    "created_at": "2026-10-20T15:44:56.080Z",
+    "updated_at": "2026-10-20T15:44:56.080Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 4,
+  "fields": {
+    "name": "HTML",
+    "slug": "html",
+    "category": "Other",
+    "proficiency": "Intermediate",
+    "order": 4,
+    "is_visible": true,
+    "created_at": "2026-10-20T15:45:16.047Z",
+    "updated_at": "2026-10-20T15:45:16.047Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 5,
+  "fields": {
+    "name": "CSS",
+    "slug": "css",
+    "category": "Other",
+    "proficiency": "Intermediate",
+    "order": 5,
+    "is_visible": true,
+    "created_at": "2026-10-20T15:45:25.921Z",
+    "updated_at": "2026-10-20T15:45:25.921Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "Video Editing — Adobe Premiere Pro",
+    "slug": "video-editing-adobe-premiere-pro",
+    "summary": "A short demo reel of video editing work produced in Adobe Premiere Pro 2023.",
+    "description": "A demonstration of video editing techniques including cuts, transitions, color correction, and audio mixing, exported from Adobe Premiere Pro 2023.",
+    "github_url": "",
+    "demo_url": "",
+    "is_featured": false,
+    "is_published": true,
+    "cover_image": "",
+    "video": "videos/video-editing-demo.mp4",
+    "order": 0,
+    "created_at": "2026-10-27T16:37:00.975Z",
+    "updated_at": "2026-10-27T16:37:00.975Z",
+    "technologies": [
+      7
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "title": "Django Blog Platform",
+    "slug": "django-blog-platform",
+    "summary": "A Django-based blogging platform built to practice backend development, database modeling, and dynamic content management.",
+    "description": "Django Blog Platform\r\n\r\nA personal web development project built with Python and Django to practice backend engineering and create a database-driven blogging experience.\r\n\r\n**Technical Implementation**\r\n\r\nThe project uses Django's models and ORM, URL routing, views, templates, and database-backed content management. It provides a practical foundation for building and maintaining a dynamic website.\r\n\r\n**Features**\r\n\r\nThe implemented features include post management and a structured blogging interface. Additional functionality, such as user authentication, post search, category and tag filtering, recent posts, and comments, should be listed here only when verified to work in this version.\r\n\r\n**What I Learned**\r\n\r\n- Structuring a Django project into reusable applications.\r\n- Working with models, database relationships, and the ORM.\r\n- Connecting views, URLs, and templates.\r\n- Managing website content through Django Admin.\r\n\r\n**Technology Stack**\r\n\r\nPython · Django · SQLite · HTML · CSS\r\n\r\nThis project represents my ongoing practice in backend development and my progress toward building maintainable web applications.",
+    "github_url": "",
+    "demo_url": "",
+    "is_featured": true,
+    "is_published": true,
+    "cover_image": "",
+    "cover_static": "img/blog-home-banner.jpg",
+    "video": "",
+    "order": 1,
+    "created_at": "2026-10-20T15:56:14.863Z",
+    "updated_at": "2026-10-20T17:05:52.562Z",
+    "technologies": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  }
+}
+]

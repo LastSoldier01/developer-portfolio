@@ -18,6 +18,8 @@
         <div class="project-detail__main">
             {% if project.cover_image %}
             <img class="project-detail__image" src="{{ project.cover_image.url }}" alt="Screenshot of {{ project.title }}">
+            {% elif project.cover_static %}
+            <img class="project-detail__image" src="{% static project.cover_static %}" alt="Screenshot of {{ project.title }}">
             {% endif %}
 
             {% if project.video %}
