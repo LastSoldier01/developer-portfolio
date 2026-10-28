@@ -22,7 +22,7 @@
     loader.classList.add("show");
     window.setTimeout(function () {
       loader.remove();
-    }, 1500);
+    }, 1800);
   }
 
   /* ---------- Hero entrance (staggered fade-up) ---------- */
